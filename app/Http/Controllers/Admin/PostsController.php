@@ -106,6 +106,7 @@ class PostsController extends Controller
         $data['post_date'] = $post->post_date;
         $data['slug'] = Str::slug($data['title'], '-'). '-' . $post->id;
         $post->update($data);
+        $post->tags()->sync($data['tags']);
         return redirect()->route('admin.posts.index')->with('result-message', '"'.$data['title'].'" successfully modified');
     }
 
