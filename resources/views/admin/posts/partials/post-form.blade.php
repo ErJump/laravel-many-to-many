@@ -1,7 +1,7 @@
 <form action="{{ route($route, $post->slug) }}" method="POST">
     @csrf
     @method($method)
-    <div class="form-group mb-2">
+    <div class="form-group mb-4">
         <label for="title">Title</label>
         <input required name="title" type="text" class="form-control" id="title" placeholder="Enter title"
             value="{{old('title', $post->title)}}">
@@ -11,7 +11,7 @@
         </div>
         @enderror
     </div>
-    <div class="form-group mb-2">
+    <div class="form-group mb-4">
         <label for="post_content">Content</label>
         <textarea name="post_content" id="post_content" cols="30" rows="10"
             class="form-control">{{old('post_content', $post->post_content)}}</textarea>
@@ -21,7 +21,7 @@
         </div>
         @enderror
     </div>
-    <div class="form-group mb-2">
+    <div class="form-group mb-4">
         <label for="post_image">Image Url</label>
         <input required name="post_image" type="text" class="form-control" id="post_image" placeholder="Enter image url"
             value="{{old('post_image', $post->post_image)}}">
@@ -31,7 +31,19 @@
         </div>
         @enderror
     </div>
-    <div class="form-group mb-2">
+    <div class="form-group mb-4">
+        <label class="d-block">Tags</label>
+        @foreach ($tags as $tag)
+            <div class="form-check d-inline px-3">
+                <input class="form-check-input" type="checkbox" name="tags[]" value="{{$tag->id}}" id="{{$tag->name}}"
+                {{ $post->tags->contains($tag) ? 'checked' : ''}}>
+                <label class="form-check-label" for="{{$tag->name}}">
+                {{$tag->name}}
+                </label>
+            </div>
+        @endforeach
+    </div>
+    <div class="form-group mb-4">
         <label for="category_id">Category</label>
         <select name="category_id" id="category_id" class="form-control">
             @foreach ($categories as $category)
