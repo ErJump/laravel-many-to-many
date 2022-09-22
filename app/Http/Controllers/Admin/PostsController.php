@@ -18,7 +18,7 @@ class PostsController extends Controller
         'post_content' => 'required|string',
         'post_image' => 'required|active_url',
         'category_id' => 'required|integer',
-        'tags' => 'required|exists:tags,id',
+        'tags' => 'exists:tags,id',
     ];
 
     /**
@@ -61,7 +61,9 @@ class PostsController extends Controller
         $data['slug'] = Str::slug($data['title'], '-'). '-' . ($lastPostId->id + 1);
         $post->fill($data);
         $post->save();
-        $post->tags()->sync($data['tags']);
+        if (isset($data['tags'])) {
+            $post->tags()->attach($data['tags']);
+        }
         return redirect()->route('admin.posts.index')->with('result-message', '"'.$data['title'].'" successfully added');
     }
 
@@ -106,7 +108,11 @@ class PostsController extends Controller
         $data['post_date'] = $post->post_date;
         $data['slug'] = Str::slug($data['title'], '-'). '-' . $post->id;
         $post->update($data);
-        $post->tags()->sync($data['tags']);
+        if (array_key_exists('tags', $data)) {
+            $post->tags()->sync($data['tags']);
+        } else {
+            $post->tags()->detach();
+        }
         return redirect()->route('admin.posts.index')->with('result-message', '"'.$data['title'].'" successfully modified');
     }
 
