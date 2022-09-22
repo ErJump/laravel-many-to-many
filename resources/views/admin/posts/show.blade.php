@@ -10,8 +10,18 @@
             <div class="col-8">
                 <h2 class="mb-3">{{$post->title}}</h2>
                 <p>{{$post->post_content}}</p>
-                <div>
-                    <span class="badge badge-secondary" style="background-color: {{$post->category->color}}">{{$post->category->name}}</span>
+                <div class="mb-3">
+                    <strong>Category:</strong> <span class="badge badge-secondary" style="background-color: {{$post->category->color}}">{{$post->category->name}}</span>
+                </div>
+                <div class="mb-3">
+                    <strong>Tags:</strong>
+                    @forelse ($post->tags as $tag)
+                    <span class="text-primary">
+                        #{{$tag->name}}
+                    </span>
+                    @empty
+                    <span>No tags</span>    
+                    @endforelse ()
                 </div>
                 <p><strong>Author:</strong> {{$post->user->name}}</p>
                 <p><strong>Post Date:</strong> {{$post->post_date}}</p>
