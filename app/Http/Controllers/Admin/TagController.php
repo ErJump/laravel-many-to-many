@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class TagController extends Controller
 {
@@ -60,7 +61,8 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tag = Tag::findOrFail($id);
+        return view('admin.tags.edit', compact('tag'));
     }
 
     /**
@@ -72,7 +74,13 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $tag = Tag::findOrFail($id);
+        $data = $request->validate([
+            'name' => ['required', 'unique:tags,name', Rule::unique('tags')->ignore($tag->name, 'name')],
+        ]);
+        $tag->fill($data);
+        $tag->save();
+        return redirect()->route('admin.tags.index');
     }
 
     /**
