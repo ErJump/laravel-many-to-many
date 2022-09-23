@@ -28,7 +28,8 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Auth::user()->posts;
+        /* $posts = Auth::user()->posts; */
+        $posts = Post::simplePaginate(10);
         return view('admin.posts.index', compact('posts'));
     }
 

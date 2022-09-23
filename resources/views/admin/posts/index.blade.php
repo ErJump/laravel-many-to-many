@@ -47,7 +47,6 @@
                 @endforeach
             </tbody>
         </table>
-        <ul>
-        </ul>
+        {{$posts->links()}}
     </div>
 @endsection
