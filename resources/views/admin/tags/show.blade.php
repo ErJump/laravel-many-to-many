@@ -23,7 +23,7 @@
                     </li>
                     @empty
                     <span>No posts</span>    
-                    @endforelse ()
+                    @endforelse
                 </ul>
             </div>
             

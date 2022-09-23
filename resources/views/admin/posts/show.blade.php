@@ -17,7 +17,7 @@
                     <strong>Tags:</strong>
                     @forelse ($post->tags as $tag)
                     <span class="text-primary">
-                        #{{$tag->name}}
+                        <a href="{{route('admin.tags.show', $tag->id)}}">#{{$tag->name}}</a> 
                     </span>
                     @empty
                     <span>No tags</span>    
