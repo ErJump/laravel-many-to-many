@@ -3,12 +3,12 @@
 
 @section('content')
     <div class="container-lg">
-        <h3 class="mb-4">Tags:</h3>
         @if (session('result-message'))
             <div class="alert alert-warning" role="alert">
                 <strong>{{session('result-message')}}</strong> 
             </div>
         @endif
+        <h3 class="mb-4">Tags:</h3>
         <table class="table">
             <thead class="thead-dark">
                 <tr>

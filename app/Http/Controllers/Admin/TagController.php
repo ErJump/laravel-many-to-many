@@ -27,7 +27,8 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        $tag = new Tag();
+        return view('admin.tags.create', compact('tag'));
     }
 
     /**
@@ -38,7 +39,13 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tag = new Tag();
+        $data = $request->validate([
+            'name' => ['required', 'unique:tags,name', Rule::unique('tags')->ignore($tag->name, 'name')],
+        ]);
+        $tag->fill($data);
+        $tag->save();
+        return redirect()->route('admin.tags.index')->with('result-message', '"'.$data['name'].'" successfully added');
     }
 
     /**
@@ -80,7 +87,7 @@ class TagController extends Controller
         ]);
         $tag->fill($data);
         $tag->save();
-        return redirect()->route('admin.tags.index');
+        return redirect()->route('admin.tags.index')->with('result-message', '"'.$data['name'].'" successfully modified');
     }
 
     /**
