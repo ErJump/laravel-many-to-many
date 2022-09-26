@@ -1,4 +1,4 @@
-<form action="{{ route($route, $post->slug) }}" method="POST">
+<form action="{{ route($route, $post->slug) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method($method)
     <div class="form-group mb-4">
@@ -26,6 +26,16 @@
         <input required name="post_image" type="text" class="form-control" id="post_image" placeholder="Enter image url"
             value="{{old('post_image', $post->post_image)}}">
         @error('post_image')
+        <div class="alert alert-danger" role="alert">
+            {{$message}}
+        </div>
+        @enderror
+    </div>
+    <div class="form-group mb-4">
+        <label for="uploaded_image">Image Url</label>
+        <input name="uploaded_image" type="file" class="form-control" id="uploaded_image"
+            value="{{old('uploaded_image', $post->uploaded_image)}}">
+        @error('uploaded_image')
         <div class="alert alert-danger" role="alert">
             {{$message}}
         </div>

@@ -9,6 +9,7 @@ use App\Models\Tag;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostsController extends Controller
@@ -19,6 +20,7 @@ class PostsController extends Controller
         'post_image' => 'required|active_url',
         'category_id' => 'required|integer',
         'tags' => 'exists:tags,id',
+        'uploaded_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ];
 
     /**
@@ -29,7 +31,7 @@ class PostsController extends Controller
     public function index()
     {
         /* $posts = Auth::user()->posts; */
-        $posts = Post::simplePaginate(10);
+        $posts = Post::paginate(10);
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -60,6 +62,7 @@ class PostsController extends Controller
         $data['user_id'] = Auth::user()->id;
         $data['post_date'] = new DateTime();
         $data['slug'] = Str::slug($data['title'], '-'). '-' . ($lastPostId->id + 1);
+        $data['uploaded_image'] = Storage::put('uploads', $data['uploaded_image']);
         $post->fill($data);
         $post->save();
         if (isset($data['tags'])) {
@@ -108,6 +111,7 @@ class PostsController extends Controller
         $data['user_id'] = $post->user->id;
         $data['post_date'] = $post->post_date;
         $data['slug'] = Str::slug($data['title'], '-'). '-' . $post->id;
+        $data['uploaded_image'] = Storage::put('uploads', $data['uploaded_image']);
         $post->update($data);
         if (array_key_exists('tags', $data)) {
             $post->tags()->sync($data['tags']);

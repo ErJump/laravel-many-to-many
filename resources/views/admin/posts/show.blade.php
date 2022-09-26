@@ -26,6 +26,10 @@
                 <p><strong>Author:</strong> {{$post->user->name}}</p>
                 <p><strong>Post Date:</strong> {{$post->post_date}}</p>
             </div>
+            <div class="col-12">
+                <h5>Related image</h5>
+                <img src="{{ asset('/storage/' . $post->uploaded_image) }}" alt="">
+            </div>
             <div class="col-12 text-center">
                 <a href="{{route('admin.posts.edit', $post->slug)}}" class="d-inline">
                     <button type="button" class="btn btn-secondary">Edit</button>
