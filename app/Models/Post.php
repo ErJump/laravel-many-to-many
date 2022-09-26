@@ -13,7 +13,8 @@ class Post extends Model
         'post_content',
         'post_image',
         'post_date',
-        'slug'
+        'slug',
+        'uploaded_image',
     ];
 
     public function user() {
